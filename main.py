@@ -19,4 +19,4 @@ if __name__ == '__main__':
     for line in coef:
         print(line)
     print()
-    # print(obj)
+    print(obj)
