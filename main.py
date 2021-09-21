@@ -1,3 +1,6 @@
+from count import count
+
+
 def read(path):
     data = open(path, 'r')
     table = []
@@ -21,3 +24,4 @@ if __name__ == '__main__':
         print(line)
     print('Main:')
     print(obj)
+    count()
