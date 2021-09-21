@@ -16,5 +16,7 @@ def read(path):
 
 if __name__ == '__main__':
     coef, obj = read('input.txt')
-    print(coef)
-    print(obj)
+    for line in coef:
+        print(line)
+    print()
+    # print(obj)
