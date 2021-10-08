@@ -98,22 +98,22 @@ class Target:
 
 
 class SimplexTable:
-    def __init__(self, Ax, F):
-        self.Ax = Ax
-        self.F = F
+    def __init__(self, A, c):
+        self.A = A
+        self.c = c
 
         self.table = self.get_simplex_table()
-        self.variables = len(self.F.get_vector())
+        self.variables = len(self.c.get_vector())
         self.base = [1, 2, 3]
         self.free = [i for i in range(1, self.variables * 2 + 1) if i not in self.base]
 
     def get_simplex_table(self):
         simplex_table = []
-        for i in range(len(self.Ax)):
-            row = [-self.Ax[i].get_free() * self.Ax[i].get_sign()] + [-val * self.Ax[i].get_sign() for val in
-                                                                      self.Ax[i].get_vector()]
+        for i in range(len(self.A)):
+            row = [-self.A[i].get_free() * self.A[i].get_sign()] + [-val * self.A[i].get_sign() for val in
+                                                                    self.A[i].get_vector()]
             simplex_table.append(row)
-        simplex_table.append([self.F.get_free()] + [-val for val in self.F.get_vector()])
+        simplex_table.append([self.c.get_free()] + [-val for val in self.c.get_vector()])
         return simplex_table
 
     def find_pivot_optimise(self):
@@ -130,7 +130,6 @@ class SimplexTable:
                     min_div = abs(self.table[j][0] / self.table[j][support_column])
                     support_row = j
 
-        # print(support_column, self.base.index(support_column), self.base)
         self.base[support_column - 1], self.free[support_row] = self.free[support_row], self.base[support_column - 1]
         return support_row, support_column
 
@@ -152,7 +151,6 @@ class SimplexTable:
 
     def jordan_exception(self, support_row, support_column):
         pivot = self.table[support_row][support_column]
-        print(pivot)
         simplex_table_iter = copy.deepcopy(self.table)
         for i in range(len(simplex_table_iter)):  # rows
             for j in range(len(simplex_table_iter[0])):  # cols
@@ -174,7 +172,7 @@ class SimplexTable:
                 row, column = self.find_pivot()
                 self.table = copy.deepcopy(self.jordan_exception(support_column=column, support_row=row))
                 continue
-            if -self.F.get_goal() * min(self.table[len(self.table) - 1][1:]) < 0:
+            if -self.c.get_goal() * min(self.table[len(self.table) - 1][1:]) < 0:
                 row, column = self.find_pivot_optimise()
                 self.table = copy.deepcopy(self.jordan_exception(support_column=column, support_row=row))
                 continue
@@ -192,4 +190,3 @@ class SimplexTable:
             output = output % tuple(self.table[i])
             output += '\n'
         return output
-

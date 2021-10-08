@@ -2,22 +2,22 @@ from init import Target, Line, SimplexTable
 
 
 def get_lines(file):
-    Ax = []
-    F = None
+    A = []
+    c = None
     lines = [line.replace('\n', '') for line in file]
     for line in lines:
         if 'F=' not in line:
             row = Line(line=line, variables=len(lines) - 1)
-            Ax.append(row)
+            A.append(row)
         else:
-            F = Target(line=line, variables=len(lines) - 1)
+            c = Target(line=line, variables=len(lines) - 1)
 
-    return Ax, F
+    return A, c
 
 
 def solve(path):
-    Ax, F = get_lines(open(path, 'r'))
-    simplex_table = SimplexTable(Ax, F)
+    A, c = get_lines(open(path, 'r'))
+    simplex_table = SimplexTable(A, c)
     X, F_val = simplex_table.solve()
     ind = 0
     for i in simplex_table.free:
