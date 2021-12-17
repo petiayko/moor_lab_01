@@ -114,8 +114,7 @@ class SimplexTable:
                         ind = self.__base.index(i)
                         output.append(self.__table[ind][0])
                     else:
-                        ind = self.__free.index(i)
-                        output.append(self.__table[0][ind])
+                        output.append(0)
                 return output, self.__table[-1][0]
             else:
                 # решений нет
