@@ -19,10 +19,6 @@ class SimplexTable:
         # список индексов базисных переменных
         self.__base = [len(self.__free) + i + 1 for i in range(len(self.__matrix) - 1)]
 
-    # геттер для симплекс таблицы
-    def get_rows(self):
-        return self.__rows
-
     # метод определяет, нужно оптимизировать решение или искать опорное
     def __status(self):
         s_minuses = [i[0] for i in self.__table[:-1] if i[0] < 0]  # минусы столбца свободных членов
